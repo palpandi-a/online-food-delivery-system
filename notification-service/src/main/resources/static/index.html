@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Notifications</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+</head>
+<body>
+    <h1>WebSocket Notification Listener</h1>
+    <script>
+        const socketUrl = 'http://localhost:8086/ws-notifications';
+
+        const socket = new SockJS(socketUrl);
+
+        const stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, (frame) => {
+            console.log('Connected to WebSocket:', frame);
+
+            stompClient.subscribe('/queue/notifications', (message) => {
+                console.log('Received message:', JSON.parse(message.body));
+            });
+        }, (error) => {
+            console.error('WebSocket connection error:', error);
+        });
+
+        window.onbeforeunload = () => {
+            if (stompClient && stompClient.connected) {
+                stompClient.disconnect(() => {
+                    console.log('WebSocket disconnected');
+                });
+            }
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: agent-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/agent_service
+    username: root
+    password: rootmysql
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
+server:
+  port: 8083
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka

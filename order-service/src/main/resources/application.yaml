@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: order-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/order_service
+    username: root
+    password: rootmysql
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+  kafka:
+    producer:
+      bootstrap-servers:
+      - localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+server:
+  port: 8084
+
+logging:
+  level:
+    '[io.netty]': debug
+    '[reactor.netty]': debug
+    '[reactor.netty.http.client]': debug
+    '[org.springframework.web.reactive.function.client.WebClient]': debug
+    '[org.apache.http]': debug
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
