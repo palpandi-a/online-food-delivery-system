@@ -4,6 +4,20 @@
 # Log file
 *.log
 
+# Ignore .DS_Store file
+**/.DS_Store
+
+# Ignore .gitignore file
+**/.gitignore
+**/.gitattributes
+
+.gitignore.swp
+
+# Ignore maven related conf files
+mvnw.cmd
+mvnw
+.mvn/
+
 # BlueJ files
 *.ctxt
 

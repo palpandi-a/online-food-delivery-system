@@ -1,5 +1,7 @@
 package com.delivery.service.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.reactive.LoadBalancedExchangeFilterFunction;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -12,10 +14,14 @@ import com.delivery.service.client.OrderClient;
 @Configuration
 public class WebClientConfig {
 
+    @Autowired
+	private LoadBalancedExchangeFilterFunction filterFunction;
+
     @Bean
     WebClient agentWebClient() {
         return WebClient.builder()
-                .baseUrl("http://localhost:8083")
+                .baseUrl("http://agent-service")
+                .filter(filterFunction)
                 .build();
     }
 
@@ -28,7 +34,8 @@ public class WebClientConfig {
     @Bean
     WebClient orderWebClient() {
         return WebClient.builder()
-                .baseUrl("http://localhost:8084")
+                .baseUrl("http://order-service")
+                .filter(filterFunction)
                 .build();
     }
 
